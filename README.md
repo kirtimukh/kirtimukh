@@ -14,30 +14,30 @@ Here are some ideas to get you started:
 -->
 
 # Hi 👋, I'm Uttaran
-### Building tools to bring the human into tech
+Building tools to bring human into tech
+
+### About
 
 - 🔭 I’m currently working on **[Cells](https://cells.ubworkshops.com)**
+- 💬 Ask me about **[Cells](https://cells.ubworkshops.com)**, **FastAPI**, **Docker**
+- 📫 Reach me at **uttaran.wary@gmail.com**
+- 👨‍💻 My socials: **[Github](https://github.com/kirtimukh)** | **[LinkedIn](https://www.linkedin.com/in/captainvyom-48187a193/)**
 
-- 👨‍💻 Some of my projects are available in **[Github](https://github.com/kirtimukh)**
-
-- 💬 Ask me about **Cells, FastAPI, Docker**
-
-- 📫 How to reach me **uttaran.wary@gmail.com**
-
-### 📡 Live Projects
+### Live Projects
 
 - **[Cells](https://cells.ubworkshops.com)**: Browser based jigsaw builder that allow **real world style controls**
 - **[Echo](https://echo.ubworkshops.com)**: Demo of **http sticky affinity**; uses Nginx for routing and Websockets to represent in-memory states
 - **[Knights](https://knights.ubworkshops.com)**: Challenge your ability to move the knight across the board
 
-### 🔍 Looking for roles
+### Looking for Roles
 
-That require
-- **cross team** collaborations
-- building and deploying for **scale**
-- to build or maintain **visibility** tools
+I'm seeking opportunities that involve:
+- **Cross-team collaboration**
+- Building and deploying for **scale**
+- Creating or maintaining **visibility tools**
 
-List is not in order of preference. Put in any mix of the above and I'll give my best.
+(The list isn't ranked — any mix of the above, and I’ll give my best.)
+
 
 ### 🛠️ Tech Stack
 
