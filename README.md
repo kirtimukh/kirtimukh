@@ -169,12 +169,12 @@ Things I reach for when the problem is real.
 
 | Area              | Tools & ideas                                                                                                    |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Languages         | Python · TypeScript / JavaScript                                                                                 |
-| Backends          | Django · DRF · FastAPI · Postgres (FTS, spatial where it earns its keep) · Redis                                 |
-| AI / retrieval    | OpenAI-style tool calling · hybrid search (FTS + dense + rerank) · session-safe agent harnesses                  |
-| Maps & geo        | Shapefiles · PMTiles · osmium / tilemaker |
-| Identity          | JWKS / asymmetric JWT |
-| Infra             | Docker · Nginx · blue/green cutovers · S3 / MinIO · AWS · Sentry                                                 |
+| Languages         | Python · JavaScript                                              |
+| Backends          | Django · FastAPI · Postgres · Redis                              |
+| AI / retrieval    | OpenAI-style tool calling · hybrid search (FTS + dense + rerank) |
+| Infra             | Docker · Nginx · S3 / MinIO · Sentry                             |
+| Writing code      | Cursor · OpenCode                                                |
+| Misc              | Linux · Bash · SSH · Cloud Compute · Containers & Functions      |
 
 
 If you want to talk system integrations, federated mobile architecture, knowledge graphs & retrieval — email is the shortest path.
