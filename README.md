@@ -2,7 +2,7 @@
 
 I design systems that stay honest under pressure — maps you can host yourself, mobile apps that load untrusted code without handing it the keys, and backends that treat tenancy, search, and deploy cutovers as first-class design problems.
 
-Most of my recent work sits at the intersection of **Python backends**, **React Native hosts**, and **infra you can reason about**: signed bundles, capability boundaries, hybrid retrieval, agent loops with contracts, blue/green cutovers. I freelance and ship my own tools under [ubworks](https://github.com/kirtimukh).
+Most of my recent work sits at the intersection of **Python backends**, **React Native hosts**, and **infra you can reason about**: signed bundles, capability boundaries, hybrid retrieval, agent loops with contracts, blue/green cutovers. I ship my own tools under [ubworks](https://github.com/kirtimukh).
 
 📧 [uttaran.wary@gmail.com](mailto:uttaran.wary@gmail.com) · [GitHub](https://github.com/kirtimukh) · [LinkedIn](https://www.linkedin.com/in/captainvyom-48187a193/)
 
