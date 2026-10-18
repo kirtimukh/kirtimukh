@@ -81,24 +81,6 @@ The architecture is powered by:
 
 This keeps ownership separate even when applets share one install: two applets can be two businesses, with the host orchestrating them without becoming their backend.
 
-The session and bundle flow:
-
-```mermaid
-sequenceDiagram
-  participant Host as Host app
-  participant Hub as Hub
-  participant Backend as Applet backend
-  Host->>Hub: Ask which applets fit this context
-  Hub-->>Host: Applet, owner, and bundle metadata
-  Host->>Hub: Ask for the compatible bundle
-  Hub-->>Host: Signed manifest and bundle locations
-  Host->>Host: Verify signature and file hashes
-  Host->>Backend: Request a session for this applet
-  Backend->>Hub: Confirm the person and applet identity
-  Backend-->>Host: Applet-scoped session token
-  Host->>Backend: Use the applet's APIs
-```
-
 The on-device boundaries:
 
 ```mermaid
