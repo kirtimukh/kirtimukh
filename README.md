@@ -8,11 +8,7 @@ Most of my recent work sits at the intersection of **Python backends**, **React 
 
 ---
 
-
-
 ## Featured projects
-
-
 
 ### [making-maps](https://github.com/kirtimukh/making-maps)
 
@@ -29,8 +25,6 @@ flowchart LR
 
 
 
-
-
 ### [talk-to-repo](https://github.com/kirtimukh/talk-to-repo)
 
 A **mobile, ask-mode-only** AI assistant for open-source repos. Bring your own API keys. Read, list, find, grep, ask — no shell, no edits, no on-device indexing.
@@ -44,8 +38,6 @@ flowchart LR
 
 
 
-
-
 ### [travelog](https://github.com/kirtimukh/travelog)
 
 An Expo travel journal: **background GPS**, notes and photos, journey state (scheduled → ongoing ⇄ paused → done), and map replay.
@@ -56,8 +48,6 @@ Two basemap stories — offline (upload and validate a `.pmtiles` before the map
 flowchart LR
   basemap["Load offline PMTiles or an online catalog"] --> journey["Create a journey"] --> track["Log GPS, notes, and photos"] --> replay["Replay the route"]
 ```
-
-
 
 
 
@@ -76,31 +66,57 @@ flowchart LR
 
 ---
 
-
-
 ## Recent work
 
-Contract and freelance systems work. The themes below are what I actually design and ship — architecture first, screens second.
+Systems work. The themes below are what I actually design and ship — architecture first, screens second.
 
-### Federated mobile hosts & integrity
+### One host app, separate ownership
 
-One widely distributed React Native host that **discovers, verifies, and dynamically loads** third-party extension bundles (Module Federation / Re.Pack). Manifests are signed; file hashes are checked; load fails closed. Host-app version ranges gate which remotes may run, so extensions can ship OTA without a store review for every change.
+A single React Native host app, one hub, and more than one backend. It is a superapp with a signed front door — not a single-platform account with a grid of tiles. Each backend remains a complete product: its own data, roles, permissions, access control, and business logic.
 
-Isolation is **capability-based**, not theatre: the host mediates APIs, pins HTTP to the right origin and tenant context, scopes storage per extension instance, and mediates sensitive device capabilities. Untrusted UI shares a JS process — so the membrane has to be explicit, least-privilege, and driven by the signed manifest, not by hope.
+The architecture is powered by:
 
-### Identity, tenancy & local data planes
+1. **Re.Pack’s Module Federation**, implemented for scoped capabilities. The host discovers, verifies, and dynamically loads applet bundles; signed manifests, file hashes, version ranges, and an explicit capability membrane keep each remote least-privilege.
+2. **PKI-based data integrity and identity management.** The hub signs the person and the applet, while the host negotiates a session token with the applet’s backend. That server verifies the signature before applying its own roles to its own data.
 
-Phone-identity control planes that issue **short-lived signed tokens** (asymmetric keys, JWKS verification at the edge) while **commerce and transactional data stay on local nodes**. Discovery by place and service radius.
+This keeps ownership separate even when applets share one install: two applets can be two businesses, with the host orchestrating them without becoming their backend.
+
+The session and bundle flow:
+
+```mermaid
+sequenceDiagram
+  participant Host as Host app
+  participant Hub as Hub
+  participant Backend as Applet backend
+  Host->>Hub: Ask which applets fit this context
+  Hub-->>Host: Applet, owner, and bundle metadata
+  Host->>Hub: Ask for the compatible bundle
+  Hub-->>Host: Signed manifest and bundle locations
+  Host->>Host: Verify signature and file hashes
+  Host->>Backend: Request a session for this applet
+  Backend->>Hub: Confirm the person and applet identity
+  Backend-->>Host: Applet-scoped session token
+  Host->>Backend: Use the applet's APIs
+```
+
+The on-device boundaries:
+
+```mermaid
+flowchart TB
+  subgraph device ["Device — only the host calls the OS"]
+    subgraph host ["Host app — holds the tokens, hands each app its own API"]
+      direction LR
+      A["Partner app A\nOwn consent\nDeclared APIs only\nOwn store for this place"]
+      B["Partner app B\nOwn consent\nDeclared APIs only\nOwn store for this place"]
+    end
+  end
+```
 
 ### Knowledge, retrieval & agent contracts
 
-Locality-scoped **knowledge graphs** with provenance (who contributed what, what became a fact). Hybrid claim retrieval — full-text, classical ranking, dense vectors, cross-encoder rerank, fusion — behind **versioned index generations** you can build, validate, and activate atomically, with incremental re-embed when the corpus barely moved.
+Locality-scoped **knowledge graphs** with provenance. Hybrid claim retrieval — full-text, classical ranking, dense vectors, cross-encoder rerank, fusion — behind **versioned index generations** you can build, validate, and activate atomically, with incremental re-embed when the corpus barely moved.
 
-Separately: **contract-driven agentic Q&A** over place knowledge. Multi-round tool loops with hard intake limits, harness-owned follow-ups (stateless signed echoes — no hallucinated “one more question” from the model), geo resolution that refuses to guess (alias → area → trigram → geocode with learn-on-miss), and DB-first answers before any external Places fallback. Knowledge writes stay on a deliberate ingest path; the runtime stays read-mostly.
-
-### Community backends & object storage
-
-Invite-only community products: membership-gated posts, job workflows on content, advisory invitation flows. **Object-first file pipelines** — private buckets, presigned upload/download, share-token redemption, sweepers for abandoned uploads — with deploy stacks that keep E2E environments from ever pointing at production data.
+Separately: **contract-driven agentic Q&A** over place knowledge. Multi-round tool loops with hard intake limits, harness-owned follow-ups, geo resolution that refuses to guess (alias → area → trigram → geocode with learn-on-miss), and DB-first answers before any external Places fallback. Knowledge writes stay on a deliberate ingest path; the runtime stays read-mostly.
 
 ### What I care about in these systems
 
@@ -110,8 +126,6 @@ Invite-only community products: membership-gated posts, job workflows on content
 - Search and agents that show their contracts, not just their demos
 
 ---
-
-
 
 ## Older projects
 
@@ -126,8 +140,6 @@ Smaller, earlier experiments — still live, still useful as a sense of range.
 
 
 ---
-
-
 
 ## Stack
 
