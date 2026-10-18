@@ -1,55 +1,148 @@
-<!--
-**kirtimukh/kirtimukh** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# Uttaran Wary
 
-Here are some ideas to get you started:
+I design systems that stay honest under pressure — maps you can host yourself, mobile apps that load untrusted code without handing it the keys, and backends that treat tenancy, search, and deploy cutovers as first-class design problems.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+Most of my recent work sits at the intersection of **Python backends**, **React Native hosts**, and **infra you can reason about**: signed bundles, capability boundaries, hybrid retrieval, agent loops with contracts, blue/green cutovers. I freelance and ship my own tools under [ubworks](https://github.com/kirtimukh).
 
-# Hi 👋, I'm Uttaran
-Building tools to bring human into tech
+📧 [uttaran.wary@gmail.com](mailto:uttaran.wary@gmail.com) · [GitHub](https://github.com/kirtimukh) · [LinkedIn](https://www.linkedin.com/in/captainvyom-48187a193/)
 
-### About
-
-- 🔭 I’m currently working on **[Cells](https://cells.ubworkshops.com)**
-- 💬 Ask me about **[Cells](https://cells.ubworkshops.com)**, **FastAPI**, **Docker**
-- 📫 Reach me at **uttaran.wary@gmail.com**
-- 👨‍💻 My socials: **[Github](https://github.com/kirtimukh)** | **[LinkedIn](https://www.linkedin.com/in/captainvyom-48187a193/)**
-
-### Live Projects
-
-- **[Cells](https://cells.ubworkshops.com)**: Browser based jigsaw builder that allow **real world style controls**
-- **[Echo](https://echo.ubworkshops.com)**: Demo of **http sticky affinity**; uses Nginx for routing and Websockets to represent in-memory states
-- **[Knights](https://knights.ubworkshops.com)**: Challenge your ability to move the knight across the board
-
-### Looking for Roles
-
-I'm seeking opportunities that involve:
-- **Cross-team collaboration**
-- Building and deploying for **scale**
-- Creating or maintaining **visibility tools**
-
-(The list isn't ranked — any mix of the above, and I’ll give my best.)
+---
 
 
-### 🛠️ Tech Stack
 
-| Category     | Tools |
-|--------------|-------|
-| Language     | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="javascript" width="40"/> |
-| Frameworks   | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg" alt="fastapi" width="40"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg" alt="django" width="40"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40"/> |
-| Databases    | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original-wordmark.svg" alt="redis" width="40"/> |
-| Cloud/DevOps | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="40"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nginx/nginx-original.svg" alt="nginx" width="40"/> |
-| Tools        | <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://www.vectorlogo.zone/logos/opencv/opencv-icon.svg" alt="opencv" width="40"/> |
-| Want to learn| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/opentelemetry/opentelemetry-original.svg" alt="opentelemetry" width="40" /> |
+## Featured projects
 
-### 📊 GitHub Stats
 
-<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=kirtimukh&" alt="kirtimukh" /></p>
+
+### [making-maps](https://github.com/kirtimukh/making-maps)
+
+A **self-hosted map stack** — not a thin wrapper on someone else's tiles.
+
+OpenStreetMap extracts go through a documented pipeline: official border reconciliation, neighbour-PBF surgery for contested geography, Shortbread-style **PMTiles**, then **Martin** on S3/MinIO with a FastAPI + SpatiaLite admin API in front. Nginx keeps tile and API origins separate; production can use instance-role access instead of static keys. The point is ownership: every layer (basemap, admin boundaries, publish path) is reproducible and yours.
+
+Routing (Valhalla) exists as an experiment on the side — interesting, not the core claim.
+
+```mermaid
+flowchart LR
+  extract["Download a Geofabrik extract"] --> borders["Reconcile official borders"] --> tiles["Build Shortbread PMTiles"] --> publish["Publish to S3 or MinIO"] --> client["Martin serves a MapLibre client"]
+```
+
+
+
+
+
+### [talk-to-repo](https://github.com/kirtimukh/talk-to-repo)
+
+A **mobile, ask-mode-only** AI assistant for open-source repos. Bring your own API keys. Read, list, find, grep, ask — no shell, no edits, no on-device indexing.
+
+The interesting part is the **trust model**: a Read Gate that jails every tool call to a workspace alias, caps exfiltration, denylists secrets, and refuses to pretend prompts are a security boundary. The agent loop is a vendored, patched port of a desktop stack onto Hermes — with CI that fails if Node APIs, write tools, or plaintext credential stores sneak back in.
+
+```mermaid
+flowchart LR
+  zip["Import a repository zip"] --> key["Add a provider API key"] --> ask["Ask a question about the repo"] --> gate["Read Gate jails every tool call"] --> reply["The answer streams in chat"]
+```
+
+
+
+
+
+### [travelog](https://github.com/kirtimukh/travelog)
+
+An Expo travel journal: **background GPS**, notes and photos, journey state (scheduled → ongoing ⇄ paused → done), and map replay.
+
+Two basemap stories — offline (upload and validate a `.pmtiles` before the map unlocks) and online (viewport-driven multi-region catalog fed by the making-maps pipeline). Built so the field recorder and the map stack can evolve independently.
+
+```mermaid
+flowchart LR
+  basemap["Load offline PMTiles or an online catalog"] --> journey["Create a journey"] --> track["Log GPS, notes, and photos"] --> replay["Replay the route"]
+```
+
+
+
+
+
+### [CodeApe](https://github.com/kirtimukh/CodeApe)
+
+Learn a codebase by **typing through its commits**. First-parent history becomes a lesson sequence; you type additions, accept deletions, resume per hunk. The original repo stays untouched — CodeApe clones into an isolated workspace and never mutates your checkout.
+
+Smaller surface area than the others, but the isolation story is clean and the learning loop is real.
+
+```mermaid
+flowchart LR
+  repo["Pick a mature repo"] --> feature["Choose a feature to learn"] --> patches["Create patch files from its history"] --> type["Type the diff to the next commit"]
+```
+
+
+
+---
+
+
+
+## Recent work
+
+Contract and freelance systems work. The themes below are what I actually design and ship — architecture first, screens second.
+
+### Federated mobile hosts & integrity
+
+One widely distributed React Native host that **discovers, verifies, and dynamically loads** third-party extension bundles (Module Federation / Re.Pack). Manifests are signed; file hashes are checked; load fails closed. Host-app version ranges gate which remotes may run, so extensions can ship OTA without a store review for every change.
+
+Isolation is **capability-based**, not theatre: the host mediates APIs, pins HTTP to the right origin and tenant context, scopes storage per extension instance, and mediates sensitive device capabilities. Untrusted UI shares a JS process — so the membrane has to be explicit, least-privilege, and driven by the signed manifest, not by hope.
+
+### Identity, tenancy & local data planes
+
+Phone-identity control planes that issue **short-lived signed tokens** (asymmetric keys, JWKS verification at the edge) while **commerce and transactional data stay on local nodes**. Discovery by place and service radius.
+
+### Knowledge, retrieval & agent contracts
+
+Locality-scoped **knowledge graphs** with provenance (who contributed what, what became a fact). Hybrid claim retrieval — full-text, classical ranking, dense vectors, cross-encoder rerank, fusion — behind **versioned index generations** you can build, validate, and activate atomically, with incremental re-embed when the corpus barely moved.
+
+Separately: **contract-driven agentic Q&A** over place knowledge. Multi-round tool loops with hard intake limits, harness-owned follow-ups (stateless signed echoes — no hallucinated “one more question” from the model), geo resolution that refuses to guess (alias → area → trigram → geocode with learn-on-miss), and DB-first answers before any external Places fallback. Knowledge writes stay on a deliberate ingest path; the runtime stays read-mostly.
+
+### Community backends & object storage
+
+Invite-only community products: membership-gated posts, job workflows on content, advisory invitation flows. **Object-first file pipelines** — private buckets, presigned upload/download, share-token redemption, sweepers for abandoned uploads — with deploy stacks that keep E2E environments from ever pointing at production data.
+
+### What I care about in these systems
+
+- Trust boundaries you can point at in a diagram
+- Fail-closed verification over “best effort” loading
+- Pipelines and cutovers that are boring in production
+- Search and agents that show their contracts, not just their demos
+
+---
+
+
+
+## Older projects
+
+Smaller, earlier experiments — still live, still useful as a sense of range.
+
+
+| Project                                   | What it is                                                                      |
+| ----------------------------------------- | ------------------------------------------------------------------------------- |
+| **[Cells](https://cells.ubworks.co)**     | Browser jigsaw builder with real-world style controls, geometry and interaction |
+| **[Echo](https://echo.ubworks.co)**       | Sticky HTTP affinity demo — Nginx + WebSockets                                  |
+| **[Knights](https://knights.ubworks.co)** | Move the knight across the board — constrained search as a playable surface     |
+
+
+---
+
+
+
+## Stack
+
+Things I reach for when the problem is real.
+
+
+| Area              | Tools & ideas                                                                                                    |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Languages         | Python · TypeScript / JavaScript                                                                                 |
+| Backends          | Django · DRF · FastAPI · Postgres (FTS, spatial where it earns its keep) · Redis                                 |
+| Mobile            | React Native · Expo · Re.Pack / Rspack · Module Federation hosts                                                 |
+| AI / retrieval    | OpenAI-style tool calling · hybrid search (FTS + dense + rerank) · session-safe agent harnesses                  |
+| Maps & geo        | MapLibre · PMTiles · Martin · osmium / tilemaker · SpatiaLite                                                    |
+| Trust & isolation | Signed manifests · JWKS / asymmetric JWT · capability membranes · sandboxed tool gates · keystore-backed secrets |
+| Infra             | Docker · Nginx · blue/green cutovers · S3 / MinIO · AWS · Sentry                                                 |
+
+
+If you want to talk maps, federated mobile architecture, retrieval, or making a backend survivable — email is the shortest path.
