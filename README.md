@@ -116,14 +116,35 @@ flowchart TB
 
 Locality-scoped **knowledge graphs** with provenance. Hybrid claim retrieval — full-text, classical ranking, dense vectors, cross-encoder rerank, fusion — behind **versioned index generations** you can build, validate, and activate atomically, with incremental re-embed when the corpus barely moved.
 
+```mermaid
+flowchart LR
+  C[Documents] --> P[Provenance graph]
+  P --> I[Index]
+  I --> Q[Query]
+  Q --> R[Hybrid retrieval and rerank]
+  R --> O[Cited paragraphs]
+```
+
 Separately: **contract-driven agentic Q&A** over place knowledge. Multi-round tool loops with hard intake limits, harness-owned follow-ups, geo resolution that refuses to guess (alias → area → trigram → geocode with learn-on-miss), and DB-first answers before any external Places fallback. Knowledge writes stay on a deliberate ingest path; the runtime stays read-mostly.
+
+```mermaid
+flowchart TB
+  U[User question] --> H[Contract harness]
+  H --> G[Resolve place]
+  G -->|Known or confidently matched| D[Query local database]
+  G -->|Ambiguous| F[Ask harness-owned follow-up]
+  F --> H
+  D -->|Answer found| A[Answer with sources]
+  D -->|No answer| X[External Places fallback]
+  X --> A
+```
 
 ### What I care about in these systems
 
-- Trust boundaries you can point at in a diagram
-- Fail-closed verification over “best effort” loading
-- Pipelines and cutovers that are boring in production
-- Search and agents that show their contracts, not just their demos
+- Clear boundaries between each app, service, and owner
+- Verify signatures and permissions before loading or sharing anything
+- Build and release pipelines that are repeatable and safe
+- Search and agents that use sources, follow rules, and admit uncertainty
 
 ---
 
@@ -150,11 +171,10 @@ Things I reach for when the problem is real.
 | ----------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Languages         | Python · TypeScript / JavaScript                                                                                 |
 | Backends          | Django · DRF · FastAPI · Postgres (FTS, spatial where it earns its keep) · Redis                                 |
-| Mobile            | React Native · Expo · Re.Pack / Rspack · Module Federation hosts                                                 |
 | AI / retrieval    | OpenAI-style tool calling · hybrid search (FTS + dense + rerank) · session-safe agent harnesses                  |
-| Maps & geo        | MapLibre · PMTiles · Martin · osmium / tilemaker · SpatiaLite                                                    |
-| Trust & isolation | Signed manifests · JWKS / asymmetric JWT · capability membranes · sandboxed tool gates · keystore-backed secrets |
+| Maps & geo        | Shapefiles · PMTiles · osmium / tilemaker |
+| Identity          | JWKS / asymmetric JWT |
 | Infra             | Docker · Nginx · blue/green cutovers · S3 / MinIO · AWS · Sentry                                                 |
 
 
-If you want to talk maps, federated mobile architecture, retrieval, or making a backend survivable — email is the shortest path.
+If you want to talk system integrations, federated mobile architecture, knowledge graphs & retrieval — email is the shortest path.
